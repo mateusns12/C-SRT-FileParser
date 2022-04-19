@@ -1,0 +1,7 @@
+*.tcl
+CMakeCache.txt
+*.cmake
+Makefile
+Testing
+CMakeFiles
+clegend

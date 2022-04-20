@@ -1,8 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <wchar.h> 
+#include <string.h>
+#include <ctype.h>
+
+typedef struct Sequence{
+	int numero;
+	char * tempo;
+	char * legenda;
+}Paragrafo;
 
 //void manipulate();
 void readFile();
+
+char printInside(FILE * ref){
+	char ch = getc(ref);
+	putchar(ch);	
+	//printf("\\x%02x", ch);
+}
+
+void findSequence(Paragrafo * par,FILE * ref){
+	char line[50];
+	char ch;
+	char array[1000][50];
+	int i = 0;
+	while(1){
+		fgets(line,sizeof(line),ref);
+		strcpy(array[i],line);	
+		i++;
+	}
+}
 
 void readFile(char * file){
 	FILE * fp;
@@ -10,24 +37,25 @@ void readFile(char * file){
 		printf("\nArquivo nao pode ser aberto\n");
 	}else{
 		printf("\nArquivo aberto\n");
-		//manipulate();
-		char ch;
-		int seq;
-		char * text;
-		/*ch = getc(fp);
-		ungetc(ch,fp);
-		putchar(c);
-		*/
-		while(1){
-			putchar(ch);
-			ch = getc(fp);
-			if(feof(fp)) break;
-		}
+		int ch = getc(fp);	
+		if(ch == EOF){
+			printf("\nArquivo vazio");
+			ungetc(ch,fp);
+		}else{
+			ungetc(ch,fp);
+			char  fh[50];
+			Paragrafo text;
+			/*while(1){
+				
+				//findSequence(fp);
+				fgets(fh,sizeof(fh),fp);
+				printf("%s\n", fh);	
+				if(feof(fp)) break;				
+			}*/
+		}		
 	}
 	fclose(fp);
 }
-
-
 
 int main(int argc,char * argv[]){
 	if(argv[1] == NULL){
@@ -36,6 +64,6 @@ int main(int argc,char * argv[]){
 		printf("\nAbrindo arquivo : %s\n",argv[1]);
 		readFile(argv[1]);
 	}
-	printf(" Goodbye \U0001f984 \n");
+	printf("\nGoodbye \U0001f984 \n");
 	return 0;
 }

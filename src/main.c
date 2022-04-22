@@ -10,6 +10,11 @@ typedef struct Sequence{
 	char * legenda;
 }Paragrafo;
 
+typedef struct Node{
+	Paragrafo par;
+	struct Node * next;
+}node;
+
 //void manipulate();
 void readFile();
 
@@ -53,14 +58,14 @@ void readFile(char * file){
 			ungetc(ch,fp);
 		}else{
 			ungetc(ch,fp);
-			char  fh[50];
+			char fh;
 			Paragrafo text;
 			while(1){
 				//findSequence(fp);
 				//fgets(fh,sizeof(fh),fp);
 				//printf("%s\n", fh);
-				ch = getc(fp);
-				putchar(ch);
+				fh = getc(fp);
+				putchar(fh);
 				if(feof(fp)) break;
 			}
 		}		

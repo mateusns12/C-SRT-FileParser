@@ -15,13 +15,19 @@ typedef struct Node{
 	struct Node * next;
 }node;
 
-//void manipulate();
-void readFile();
+void readFile(char * file);
+void findSequence(Paragrafo * par,FILE * ref);
+void Menu(char * file);
 
-void printInside(FILE * ref){
-	char ch = getc(ref);
-	putchar(ch);	
-	//printf("\\x%02x", ch);
+int main(int argc,char * argv[]){
+	if(argv[1] == NULL){
+		printf("Arquivo nao especificado");
+	}else{
+		printf("\nAbrindo arquivo : %s\n",argv[1]);
+		Menu(argv[1]);
+	}
+	printf("\nGoodbye \U0001f984 \n");
+	return 0;
 }
 
 void findSequence(Paragrafo * par,FILE * ref){
@@ -87,20 +93,10 @@ void Menu(char * file){
 				break;
 			case 3:
 				break;
+			case 6:
+				break;
 			default:
 				printf("\n\tInvalido\n");
 		}
 	}while(option != 6);
-}
-
-int main(int argc,char * argv[]){
-	if(argv[1] == NULL){
-		printf("Arquivo nao especificado");
-	}else{
-		printf("\nAbrindo arquivo : %s\n",argv[1]);
-		//readFile(argv[1]);
-		Menu(argv[1]);
-	}
-	printf("\nGoodbye \U0001f984 \n");
-	return 0;
 }

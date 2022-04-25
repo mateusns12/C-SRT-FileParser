@@ -15,25 +15,9 @@ typedef struct time{
 	int milisseconds_2;
 }Time;
 
-typedef struct Sequence{
-	int numero;
-	char * tempo;
-	char * legenda;
-}Paragrafo;
-
-typedef struct node{
-	Paragrafo seq;
-	struct node * next;
-}Node;
-
-Node * first = NULL;
-Node * last = NULL;
-
 void readFile(char * file);
 void findSequence(char * file);
 void Menu(char * file);
-void InsertSequenceDirectly(Paragrafo par);
-void InsertSequence(int sequence, char * tempo, char * text);
 
 int main(int argc,char * argv[]){
 	if(argv[1] == NULL){
@@ -46,24 +30,12 @@ int main(int argc,char * argv[]){
 	return 0;
 }
 
-Paragrafo setParagrafo(int numero, char tempo[], char legenda[]){
-	Paragrafo par;
-	par.numero = numero;
-	par.tempo = malloc(sizeof(char));
-	strcpy(par.tempo,tempo);
-	par.legenda = malloc(sizeof(char));
-	strcpy(par.legenda,legenda);
-	return par;
-}
 
 void findSequence(char * file){
-	char buff[30];
-	char buffer[50];
-	char line[500] = "";
+	char buff[500];
+
 	FILE * fp;
 	int numero = 0;
-	//char * tempo = malloc(sizeof(char));
-	//char * legenda = malloc(sizeof(char));
 	char * tempo;
 	char * legenda;	
 	if((fp = fopen(file,"r")) == NULL){
@@ -74,78 +46,19 @@ void findSequence(char * file){
 			printf("\nArquivo vazio");
 			ungetc(ch,fp);
 		}else{
-			//int i = 0;
 			ungetc(ch,fp);
-			while(1){			
-				int i = 0;	
-				if(feof(fp)) break;
+			while(1){
+				
 				fgets(buff,sizeof(buff),fp);
-				if(buff[0]!='\n'){
-					if(atoi(buff)){
-						numero = atoi(buff);
-						fgets(buff,sizeof(buff),fp);
-						tempo = buff;						
-						while(1){	
-							char zh = getc(fp);						
-							if(zh == (char)EOF){
-								break;							
-							}else{
-								line[i] = zh;
-								i++;
-								if(zh == '\n'){
-									char fh = getc(fp);
-									if(fh =='\n') break;
-									ungetc(fh,fp);
-								}
-							}							
-						}legenda = line;
-					}
-					//printf("\n%d\n%s\n%s",numero,tempo,legenda);
-					legenda = "";
-					tempo = "";
-					memset(line,0,sizeof(line));
-					memset(buff,0,sizeof(buff));
-					memset(buffer,0,sizeof(buffer));				
-				}//if(feof(fp)) break;
+				
+				//tempo = "";
+				//memset(buff,0,sizeof(buff));
+				
+				if(feof(fp)) break;	
 			}		
 		}
-	}//free(tempo);
-	//free(legenda);
+	}
 	fclose(fp);
-}
-
-	//if ch = \n{
-	//	if ch = \n{
-	//		if ch isdigit(){
-	//			new sequence
-	//		}
-	//	}
-	//}
-
-void InsertSequence(int sequence, char * tempo, char * text){
-	Node * aux = (Node*)malloc(sizeof(Node));
-	aux->seq.numero = sequence;
-	aux->seq.tempo = tempo;
-	aux->seq.legenda = text;
-	if(first==NULL){
-		first = aux;
-		last = first;
-	}else{
-		last->next = aux;
-		last = last->next;
-	}last->next = NULL;
-}
-
-void InsertSequenceDirectly(Paragrafo par){
-	Node * aux = (Node*)malloc(sizeof(Node));
-	aux->seq = par;
-	if(first==NULL){
-		first = aux;
-		last = first;
-	}else{
-		last->next = aux;
-		last = last->next;
-	}last->next = NULL;
 }
 
 void readFile(char * file){
@@ -162,12 +75,8 @@ void readFile(char * file){
 			ungetc(ch,fp);
 			char fh;
 			while(1){
-				//if(feof(fp)) break;
-				
-				fh = getc(fp);
-				if(fh == (char)EOF){
-					break;
-				}
+				if(feof(fp)) break;
+				fh = getc(fp);				
 				putchar(fh);				
 			}
 		}		

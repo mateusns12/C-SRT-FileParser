@@ -76,3 +76,13 @@ Command:
 [user@DESKTOP C-SRT-FileParser]$ valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s ./clegend src/IronMan.srt
 ````
 Result, for 59 sec time shift
+````
+==6218== HEAP SUMMARY:
+==6218==     in use at exit: 0 bytes in 0 blocks
+==6218==   total heap usage: 6 allocs, 6 frees, 11,184 bytes allocated
+==6218== 
+==6218== All heap blocks were freed -- no leaks are possible
+==6218== 
+==6218== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+````

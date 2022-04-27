@@ -1,22 +1,69 @@
 # SRT file parser in C
 
-![System](https://img.shields.io/badge/System-Android_TERMUX-47D147?style=for-the-badge&logo=android)
+![System](https://img.shields.io/badge/System-Android_TERMUX-47D167?style=for-the-badge&logo=android)
 
 ![Language](https://img.shields.io/badge/language-c-00599c?style=for-the-badge&logo=c&logoColor=white)
 
-SRT File parser in C. This program gets a srt file as a command line argument. The main purpose is to be able to change the time of the subtitles, entering a new value. 
+![Status](https://img.shields.io/badge/status-concluded-87D935?style=for-the-badge)
 
-Currently, the program has options of parse the file into a list of sequences, Print the file and exit.
+SRT File parser in C. This program gets a srt file as a command line argument. The main purpose is to be able to change the time of the subtitles, entering a new value in **seconds**. 
+
+Currently, the option 1 - "Parse" shifts the time, while creating a new file "Outfile.srt", with the updated time. The option 2 - "Print File" just prints the file, and 3 - "Exit" leaves the program.
+
+# Usage
+
+After building the executable "Clegend", the target file is inserted by passing as a reference in the command line:
+
+````
+// On Linux, passing the sample file in the src folder
+
+[user@DESKTOP C-SRT-FileParser]$./clegend src/IronMan.srt
+````
+## Menu
+
+````
+Openning File : src/IronMan.srt
+
+        1 - Parse
+        2 - Print File
+        6 - Exit
+````
+## Parse
+
+````
+1  // Chosen option
+
+How many seconds to shift ? : 59
+````
+## Comparison IN and OUT files
+
+````
+// Input File
+
+897
+00:59:10,365 --> 00:59:12,591
+No. No, absolutely not.
+It'll give me a bone to throw the boys
+====================================================
+
+// Output File
+
+897
+01:00:09,365 --> 01:00:11,591
+No. No, absolutely not.
+It'll give me a bone to throw the boys
+
+````
 
 This code is a challenge made by my friend [Jose Rogerio](https://github.com/almeidajr).
 
 # Notes 
 
-- The sequence List is a queue, where the first is always frist, and new members are put in the end of the list.(Last In First Out)
-- "first" pointer and "last" pointer keeps track of the data in their respective positions.
-- Memory is not reallocated, or liberated, Possible memory leak issue.
+- **(Fixed - Lists Removed)** The sequence List is a queue, where the first is always frist, and new members are put in the end of the list.(Last In First Out)
+- **(Fixed - Lists Removed)** "first" pointer and "last" pointer keeps track of the data in their respective positions.
+- **(Fixed - No dynamic allocation)** Memory is not reallocated, or liberated, Possible memory leak issue.
 
 # To-do
-- [ ] Keep track of dynamic allocated variables
-- [ ] Implement Parsing function in the menu
-- [ ] Implement UpdateTime function
+- [X] Keep track of dynamic allocated variables - No Leaks or Runtime Errors, checked with Valgrind.
+- [X] Implement Parsing function in the menu - Option 1.
+- [X] Implement UpdateTime function - Got Called GhangeTimestamp.

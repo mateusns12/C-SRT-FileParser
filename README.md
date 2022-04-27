@@ -24,6 +24,7 @@ After building the executable "Clegend", the target file is inserted by passing 
 ````
 Openning File : src/IronMan.srt
 
+Choose an Option:
         1 - Parse
         2 - Print File
         6 - Exit
@@ -34,6 +35,10 @@ Openning File : src/IronMan.srt
 1  // Chosen option
 
 How many seconds to shift ? : 59
+
+        Creating Outfile.srt...
+
+        Outfile.srt created.
 ````
 ## Comparison IN and OUT files
 
@@ -75,7 +80,7 @@ Command:
 ````
 [user@DESKTOP C-SRT-FileParser]$ valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s ./clegend src/IronMan.srt
 ````
-Result, for 59 sec time shift
+Result, for 59 sec time shift:
 ````
 ==6218== HEAP SUMMARY:
 ==6218==     in use at exit: 0 bytes in 0 blocks

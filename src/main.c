@@ -16,66 +16,103 @@ typedef struct time{
 }Time;
 
 void readFile(char * file);
-void findSequence(char * file);
+void findSequence(char * file, int shift);
 void Menu(char * file);
+char * changeTimestamp(char * buffer, Time stamp,int shift);
+int getTimestamp(char * buffer, Time * stamp);
 
 int main(int argc,char * argv[]){
 	if(argv[1] == NULL){
-		printf("Arquivo nao especificado");
+		printf("\nFile not especified");
 	}else{
-		printf("\nAbrindo arquivo : %s\n",argv[1]);
+		printf("\nOpenning File : %s\n",argv[1]);
 		Menu(argv[1]);
 	}
 	printf("\nGoodbye \U0001f984 \n");
 	return 0;
 }
 
-
-void findSequence(char * file){
-	char buff[500];
-
-	FILE * fp;
-	int numero = 0;
-	char * tempo;
-	char * legenda;	
-	if((fp = fopen(file,"r")) == NULL){
-		printf("\nArquivo nao pode ser aberto\n");
+void findSequence(char * file, int shift){
+	char buffer[200];
+	FILE * IN_file;
+	FILE * OUT_file;
+	const int STR_LEN = 29;	
+	if((IN_file = fopen(file,"r")) == NULL){
+		printf("\nFile can't be openned\n");
 	}else{
-		int ch = getc(fp);
+		int ch = getc(IN_file);
 		if(ch == EOF){
-			printf("\nArquivo vazio");
-			ungetc(ch,fp);
+			printf("\nEmpty File");
+			ungetc(ch,IN_file);
 		}else{
-			ungetc(ch,fp);
-			while(1){
-				
-				fgets(buff,sizeof(buff),fp);
-				
-				//tempo = "";
-				//memset(buff,0,sizeof(buff));
-				
-				if(feof(fp)) break;	
+			OUT_file = fopen("Outfile.srt","w");
+			printf("\n\tCreating Outfile.srt...\n");
+			ungetc(ch,IN_file);
+			Time stamp;
+			while(!feof(IN_file)){	
+				buffer[0] = 0;		
+				fgets(buffer,sizeof(buffer),IN_file);
+				if(getTimestamp(buffer,&stamp) == 8){
+					changeTimestamp(buffer,stamp,shift);
+				}
+				fprintf(OUT_file,buffer);
 			}		
-		}
+		}fclose(OUT_file);
+		printf("\n\tOutfile.srt created.\n");
 	}
-	fclose(fp);
+	fclose(IN_file);
+	
+}
+
+int getTimestamp(char * buffer, Time * stamp){
+	int res = sscanf(buffer,"%d:%d:%d,%d --> %d:%d:%d,%d",
+	&stamp->hours_1,&stamp->minutes_1,&stamp->seconds_1,&stamp->milisseconds_1,
+	&stamp->hours_2,&stamp->minutes_2,&stamp->seconds_2,&stamp->milisseconds_2);
+	return res;
+}
+
+char * changeTimestamp(char * buffer, Time stamp,int shift){
+
+	//seconds
+	if (stamp.seconds_1 + shift > 59){
+		stamp.seconds_1 =(stamp.seconds_1 + shift) - 60;
+		stamp.minutes_1 += 1;
+	}else stamp.seconds_1 += shift;
+	if(stamp.minutes_1>59){
+		stamp.minutes_1 = 00;
+		stamp.hours_1 +=1;
+	}
+
+	if (stamp.seconds_2 + shift > 59){
+		stamp.seconds_2 =(stamp.seconds_2 + shift) - 60;
+		stamp.minutes_2 += 1;
+	}else stamp.seconds_2 += shift;
+	if(stamp.minutes_2>59){
+		stamp.minutes_2 = 00;
+		stamp.hours_2 +=1;
+	}
+				
+	sprintf(buffer,"%.2d:%.2d:%.2d,%.3d --> %.2d:%.2d:%.2d,%.3d\n",
+	stamp.hours_1,stamp.minutes_1,stamp.seconds_1,stamp.milisseconds_1,
+	stamp.hours_2,stamp.minutes_2,stamp.seconds_2,stamp.milisseconds_2);
+				
 }
 
 void readFile(char * file){
 	FILE * fp;
 	if((fp = fopen(file,"r")) == NULL){
-		printf("\nArquivo nao pode ser aberto\n");
+		printf("\nFile can't be openned\n");
 	}else{
-		printf("\nArquivo aberto\n");
+		printf("\nFile openned\n");
 		int ch = getc(fp);	
 		if(ch == EOF){
-			printf("\nArquivo vazio");
+			printf("\nEmpty File");
 			ungetc(ch,fp);
 		}else{
 			ungetc(ch,fp);
 			char fh;
-			while(1){
-				if(feof(fp)) break;
+			while(!feof(fp)){
+
 				fh = getc(fp);				
 				putchar(fh);				
 			}
@@ -86,13 +123,16 @@ void readFile(char * file){
 
 void Menu(char * file){
 	int option = 0;
-	char * menu = "\n\t1 - Parse\n\t2 - Imprimir arquivo\n\t6 - Sair\n";
+	char * menu = "\nChoose an Option:\n\t1 - Parse\n\t2 - Print File\n\t6 - Exit\n";
 	do{
 		printf("%s",menu);
                 scanf("%d",&option);
 		switch(option){
 			case 1:
-				findSequence(file);
+				int secs = 0;
+				printf("\nHow many seconds to shift ? : ");
+				scanf("%d",&secs);
+				findSequence(file,secs);
 				break;
 			case 2:
 				readFile(file);
@@ -102,7 +142,7 @@ void Menu(char * file){
 			case 6:
 				break;
 			default:
-				printf("\n\tInvalido\n");
+				printf("\n\tInvalid\n");
 		}
 	}while(option != 6);
 }

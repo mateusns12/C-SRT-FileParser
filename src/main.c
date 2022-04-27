@@ -100,7 +100,7 @@ void findSequence(char * file){
 							}							
 						}legenda = line;
 					}
-					//printf("\n%d\n%s\n%s",numero,tempo,legenda);
+					printf("\n%d\n%s\n%s",numero,tempo,legenda);
 					legenda = "";
 					tempo = "";
 					memset(line,0,sizeof(line));

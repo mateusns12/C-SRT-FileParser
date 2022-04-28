@@ -65,7 +65,7 @@ This code is a challenge made by my friend [Jose Rogerio](https://github.com/alm
 # Notes 
 
 - On the branch "DEV" there is a preliminar implementation of the full parser, wich can turn the entire file into a List of sequences. Currently only working with the "file.srt". Caracther comparisson leads to segmentation faults.
-
+- Currently only shifting time **fowards**.
 - **(Fixed - Lists Removed)** The sequence List is a queue, where the first is always frist, and new members are put in the end of the list.(Last In First Out)
 - **(Fixed - Lists Removed)** "first" pointer and "last" pointer keeps track of the data in their respective positions.
 - **(Fixed - No dynamic allocation)** Memory is not reallocated, or liberated, Possible memory leak issue.

@@ -73,29 +73,33 @@ int getTimestamp(char * buffer, Time * stamp){
 
 char * changeTimestamp(char * buffer, Time stamp,int shift){
 
-	//seconds
-	if (stamp.seconds_1 + shift > 59){
-		stamp.seconds_1 =(stamp.seconds_1 + shift) - 60;
-		stamp.minutes_1 += 1;
-	}else stamp.seconds_1 += shift;
-	if(stamp.minutes_1>59){
-		stamp.minutes_1 = 00;
-		stamp.hours_1 +=1;
-	}
+	if(shift>0){
+		int seconds = stamp.seconds_1 + shift;
+		int mins = stamp.minutes_1 + seconds/60;
+		stamp.hours_1 = stamp.hours_1 + mins/60;
+		
+		if(seconds >= 60){
+			stamp.seconds_1 = (seconds%60);
+		}else stamp.seconds_1 = seconds;
+		if(mins >= 60){
+			stamp.minutes_1 = (mins%60);
+		}else stamp.minutes_1 = mins;
 
-	if (stamp.seconds_2 + shift > 59){
-		stamp.seconds_2 =(stamp.seconds_2 + shift) - 60;
-		stamp.minutes_2 += 1;
-	}else stamp.seconds_2 += shift;
-	if(stamp.minutes_2>59){
-		stamp.minutes_2 = 00;
-		stamp.hours_2 +=1;
-	}
+		seconds = stamp.seconds_2 + shift;
+		mins = stamp.minutes_2 + seconds/60;
+		stamp.hours_2 = stamp.hours_2 + mins/60;
+		
+		if(seconds >= 60){
+			stamp.seconds_2 = (seconds%60);
+		}else stamp.seconds_2 = seconds;
+		if(mins >= 60){
+			stamp.minutes_2 = (mins%60);
+		}else stamp.minutes_2 = mins;
+	}	
 				
 	sprintf(buffer,"%.2d:%.2d:%.2d,%.3d --> %.2d:%.2d:%.2d,%.3d\n",
 	stamp.hours_1,stamp.minutes_1,stamp.seconds_1,stamp.milisseconds_1,
-	stamp.hours_2,stamp.minutes_2,stamp.seconds_2,stamp.milisseconds_2);
-				
+	stamp.hours_2,stamp.minutes_2,stamp.seconds_2,stamp.milisseconds_2);				
 }
 
 void readFile(char * file){
@@ -112,7 +116,6 @@ void readFile(char * file){
 			ungetc(ch,fp);
 			char fh;
 			while(!feof(fp)){
-
 				fh = getc(fp);				
 				putchar(fh);				
 			}

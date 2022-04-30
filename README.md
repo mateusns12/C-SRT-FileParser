@@ -27,7 +27,7 @@ Openning File : src/IronMan.srt
 Choose an Option:
         1 - Parse
         2 - Print File
-        6 - Exit
+        3 - Exit
 ````
 ## Parse
 
@@ -64,6 +64,7 @@ This code is a challenge made by my friend [Jose Rogerio](https://github.com/alm
 
 # Notes 
 
+- Fixed Timestamp function - Values multiple of 60 would give +1 to hour value, and minutes would not be increased.
 - Timestamp function fixed, so negative values can be entered, and reverse the timestamp. 
 - On the branch "DEV" there is a preliminar implementation of the full parser, wich can turn the entire file into a List of sequences. Currently only working with the "file.srt". Caracther comparisson leads to segmentation faults.
 - **(FIXED - ChangeTimestamp updated)** Currently only shifting time **fowards**.

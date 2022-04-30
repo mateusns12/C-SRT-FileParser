@@ -16,9 +16,9 @@ typedef struct time{
 }Time;
 
 void readFile(char * file);
-void findSequence(char * file, int shift);
+void findSequence(char * file, int shift, int opt);
 void Menu(char * file);
-char * changeTimestamp(char * buffer, Time stamp,int shift);
+void changeTimestamp(char * buffer, Time stamp,int shift, int opt);
 int getTimestamp(char * buffer, Time * stamp);
 
 int main(int argc,char * argv[]){
@@ -32,7 +32,7 @@ int main(int argc,char * argv[]){
 	return 0;
 }
 
-void findSequence(char * file, int shift){
+void findSequence(char * file, int shift, int opt){
 	char buffer[200];
 	FILE * IN_file;
 	FILE * OUT_file;
@@ -53,7 +53,7 @@ void findSequence(char * file, int shift){
 				buffer[0] = 0;		
 				fgets(buffer,sizeof(buffer),IN_file);
 				if(getTimestamp(buffer,&stamp) == 8){
-					changeTimestamp(buffer,stamp,shift);
+					changeTimestamp(buffer,stamp,shift,opt);
 				}
 				fprintf(OUT_file,buffer);
 			}		
@@ -71,7 +71,20 @@ int getTimestamp(char * buffer, Time * stamp){
 	return res;
 }
 
-char * changeTimestamp(char * buffer, Time stamp,int shift){
+void changeTimestamp(char * buffer, Time stamp,int shift, int opt){
+
+	if(opt == 2){
+		int shift_ms = shift;
+		shift = shift/1000;
+		stamp.milisseconds_1 += shift_ms;
+        stamp.seconds_1 += shift/1000 + stamp.milisseconds_1/60000;
+        stamp.milisseconds_1 = stamp.milisseconds_1%1000;
+
+		stamp.milisseconds_2 += shift_ms;
+        stamp.seconds_2 += shift/1000 + stamp.milisseconds_2/60000;
+        stamp.milisseconds_2 = stamp.milisseconds_2%1000;
+		//shift = shift/1000;
+    }
 
 	stamp.seconds_1 += shift%60;
     stamp.minutes_1 += shift/60 + stamp.seconds_1/60;
@@ -80,6 +93,11 @@ char * changeTimestamp(char * buffer, Time stamp,int shift){
 	stamp.hours_1 += stamp.minutes_1/60;
     stamp.seconds_1 = stamp.seconds_1%60;
     stamp.minutes_1 = stamp.minutes_1%60;
+
+	if(stamp.milisseconds_1 < 0){
+        stamp.milisseconds_1 += 1000;
+        stamp.seconds_1 -= 1;
+    }
     if(stamp.seconds_1 < 0){
         stamp.seconds_1 += 60;
         stamp.minutes_1 -= 1;
@@ -99,6 +117,11 @@ char * changeTimestamp(char * buffer, Time stamp,int shift){
 	stamp.hours_2 += stamp.minutes_2/60;
     stamp.seconds_2 = stamp.seconds_2%60;
     stamp.minutes_2 = stamp.minutes_2%60;
+
+	if(stamp.milisseconds_2 < 0){
+        stamp.milisseconds_2 += 1000;
+        stamp.seconds_2 -= 1;
+    }
     if(stamp.seconds_2 < 0){
         stamp.seconds_2 += 60;
         stamp.minutes_2 -= 1;
@@ -124,7 +147,7 @@ void readFile(char * file){
 		printf("\nFile openned\n");
 		int ch = getc(fp);	
 		if(ch == EOF){
-			printf("\nEmpty File");
+			printf("\nEmpty File\n");
 			ungetc(ch,fp);
 		}else{
 			ungetc(ch,fp);
@@ -141,7 +164,7 @@ void readFile(char * file){
 void Menu(char * file){
 	int option = 0;
 	int secs;
-	char * menu = "\nChoose an Option:\n\t1 - Parse\n\t2 - Print File\n\t3 - Exit\n";
+	char * menu = "\nChoose an Option :\n\t1 - Parse in seconds\n\t2 - Parse in milliseconds\n\t3 - Print File\n\t6 - Exit\n";
 	do{
 		printf("%s",menu);
                 scanf("%d",&option);
@@ -150,15 +173,21 @@ void Menu(char * file){
 				secs = 0;
 				printf("\nHow many seconds to shift ? : ");
 				scanf("%d",&secs);
-				findSequence(file,secs);
+				findSequence(file,secs,option);
 				break;
 			case 2:
-				readFile(file);
+				secs = 0;
+				printf("\nHow many milliseconds to shift ? : ");
+				scanf("%d",&secs);
+				findSequence(file,secs,option);
 				break;
 			case 3:
+				readFile(file);
+				break;
+			case 6:
 				break;
 			default:
 				printf("\n\tInvalid\n");
 		}
-	}while(option != 3);
+	}while(option != 6);
 }

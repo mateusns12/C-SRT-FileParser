@@ -25,9 +25,10 @@ After building the executable "Clegend", the target file is inserted by passing 
 Openning File : src/IronMan.srt
 
 Choose an Option:
-        1 - Parse
-        2 - Print File
-        3 - Exit
+        1 - Parse in seconds
+        2 - Parse in milliseconds
+        3 - Print File
+        6 - Exit
 ````
 ## Parse
 
@@ -35,6 +36,15 @@ Choose an Option:
 1  // Chosen option
 
 How many seconds to shift ? : 59
+
+        Creating Outfile.srt...
+
+        Outfile.srt created.
+
+====================================================
+2  // Chosen option
+
+How many milliseconds to shift ? : 59000
 
         Creating Outfile.srt...
 
@@ -57,13 +67,13 @@ It'll give me a bone to throw the boys
 01:00:09,365 --> 01:00:11,591
 No. No, absolutely not.
 It'll give me a bone to throw the boys
-
 ````
 
 This code is a challenge made by my friend [Jose Rogerio](https://github.com/almeidajr).
 
 # Notes 
 
+- Changed Menu, added option to shift milliseconds.
 - Fixed Timestamp function - Values multiple of 60 would give +1 to hour value, and minutes would not be increased.
 - Timestamp function fixed, so negative values can be entered, and reverse the timestamp. 
 - On the branch "DEV" there is a preliminar implementation of the full parser, wich can turn the entire file into a List of sequences. Currently only working with the "file.srt". Caracther comparisson leads to segmentation faults.
@@ -77,7 +87,7 @@ This code is a challenge made by my friend [Jose Rogerio](https://github.com/alm
 - [X] Implement Parsing function in the menu - Option 1.
 - [X] Implement UpdateTime function - Got Called GhangeTimestamp.
 - [X] Fix Timestamp Function - Now working fowards and reverse in time.
-- [ ] Give option to update time in milliseconds.
+- [X] Give option to update time in milliseconds.
 
 # Valgrind Analisys
 Command:
@@ -93,5 +103,4 @@ Result, for 59 sec time shift:
 ==6218== All heap blocks were freed -- no leaks are possible
 ==6218== 
 ==6218== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
-
 ````

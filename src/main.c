@@ -74,9 +74,10 @@ int getTimestamp(char * buffer, Time * stamp){
 char * changeTimestamp(char * buffer, Time stamp,int shift){
 
 	stamp.seconds_1 += shift%60;
-    stamp.minutes_1 += shift/60;
-    stamp.hours_1 += shift/3600;
-	stamp.hours_1 += stamp.seconds_1/60;
+    stamp.minutes_1 += shift/60 + stamp.seconds_1/60;
+    //stamp.hours_1 += shift/3600;
+	//stamp.hours_1 += stamp.seconds_1/60;
+	stamp.hours_1 += stamp.minutes_1/60;
     stamp.seconds_1 = stamp.seconds_1%60;
     stamp.minutes_1 = stamp.minutes_1%60;
     if(stamp.seconds_1 < 0){
@@ -92,9 +93,10 @@ char * changeTimestamp(char * buffer, Time stamp,int shift){
     }
 
 	stamp.seconds_2 += shift%60;
-    stamp.minutes_2 += shift/60;
-    stamp.hours_2 += shift/3600;
-	stamp.hours_2 += stamp.seconds_2/60;
+    stamp.minutes_2 += shift/60 + stamp.seconds_2/60;
+    //stamp.hours_2 += shift/3600;
+	//stamp.hours_2 += stamp.seconds_2/60;
+	stamp.hours_2 += stamp.minutes_2/60;
     stamp.seconds_2 = stamp.seconds_2%60;
     stamp.minutes_2 = stamp.minutes_2%60;
     if(stamp.seconds_2 < 0){
@@ -138,13 +140,14 @@ void readFile(char * file){
 
 void Menu(char * file){
 	int option = 0;
-	char * menu = "\nChoose an Option:\n\t1 - Parse\n\t2 - Print File\n\t6 - Exit\n";
+	int secs;
+	char * menu = "\nChoose an Option:\n\t1 - Parse\n\t2 - Print File\n\t3 - Exit\n";
 	do{
 		printf("%s",menu);
                 scanf("%d",&option);
 		switch(option){
 			case 1:
-				int secs = 0;
+				secs = 0;
 				printf("\nHow many seconds to shift ? : ");
 				scanf("%d",&secs);
 				findSequence(file,secs);
@@ -154,10 +157,8 @@ void Menu(char * file){
 				break;
 			case 3:
 				break;
-			case 6:
-				break;
 			default:
 				printf("\n\tInvalid\n");
 		}
-	}while(option != 6);
+	}while(option != 3);
 }

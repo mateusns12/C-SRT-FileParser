@@ -73,6 +73,7 @@ This code is a challenge made by my friend [Jose Rogerio](https://github.com/alm
 
 # Notes 
 
+- Added help message for invalid inputs or NULL input.
 - Changed Menu, added option to shift milliseconds.
 - Fixed Timestamp function - Values multiple of 60 would give +1 to hour value, and minutes would not be increased.
 - Timestamp function fixed, so negative values can be entered, and reverse the timestamp. 

@@ -64,16 +64,18 @@ This code is a challenge made by my friend [Jose Rogerio](https://github.com/alm
 
 # Notes 
 
+- Timestamp function fixed, so negative values can be entered, and reverse the timestamp. 
 - On the branch "DEV" there is a preliminar implementation of the full parser, wich can turn the entire file into a List of sequences. Currently only working with the "file.srt". Caracther comparisson leads to segmentation faults.
-- Currently only shifting time **fowards**.
-- **(Fixed - Lists Removed)** The sequence List is a queue, where the first is always frist, and new members are put in the end of the list.(Last In First Out)
-- **(Fixed - Lists Removed)** "first" pointer and "last" pointer keeps track of the data in their respective positions.
-- **(Fixed - No dynamic allocation)** Memory is not reallocated, or liberated, Possible memory leak issue.
+- **(FIXED - ChangeTimestamp updated)** Currently only shifting time **fowards**.
+- **(FIXED - Lists Removed)** The sequence List is a queue, where the first is always frist, and new members are put in the end of the list.(Last In First Out)
+- **(FIXED - Lists Removed)** "first" pointer and "last" pointer keeps track of the data in their respective positions.
+- **(FIXED - No dynamic allocation)** Memory is not reallocated, or liberated, Possible memory leak issue.
 
 # To-do
 - [X] Keep track of dynamic allocated variables - No Leaks or Runtime Errors, checked with Valgrind.
 - [X] Implement Parsing function in the menu - Option 1.
 - [X] Implement UpdateTime function - Got Called GhangeTimestamp.
+- [X] Fix Timestamp Function - Now working fowards and reverse in time.
 
 # Valgrind Analisys
 Command:

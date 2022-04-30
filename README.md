@@ -6,9 +6,9 @@
 
 ![Status](https://img.shields.io/badge/status-concluded-87D935?style=for-the-badge)
 
-SRT File parser in C. This program gets a srt file as a command line argument. The main purpose is to be able to change the time of the subtitles, entering a new value in **seconds**. 
+SRT File parser in C. This program gets a srt file as a command line argument. The main purpose is to be able to change the time of the subtitles, entering a new value in **seconds** or in **milliseconds**. 
 
-Currently, the option 1 - "Parse" shifts the time, while creating a new file "Outfile.srt", with the updated time. The option 2 - "Print File" just prints the file, and 3 - "Exit" leaves the program.
+Currently, the option 1 - "Parse in seconds" shifts the time in seconds, while creating a new file "Outfile.srt", with the updated time. The option 2 - "Parse in milliseconds" shifts the time in milliseconds. Option 3 - "Print File" just prints the source file, and 6 - "Exit" leaves the program.
 
 # Usage
 
@@ -59,8 +59,8 @@ How many milliseconds to shift ? : 59000
 00:59:10,365 --> 00:59:12,591
 No. No, absolutely not.
 It'll give me a bone to throw the boys
-====================================================
 
+====================================================
 // Output File
 
 897

@@ -77,6 +77,7 @@ This code is a challenge made by my friend [Jose Rogerio](https://github.com/alm
 - [X] Implement Parsing function in the menu - Option 1.
 - [X] Implement UpdateTime function - Got Called GhangeTimestamp.
 - [X] Fix Timestamp Function - Now working fowards and reverse in time.
+- [ ] Give option to update time in milliseconds.
 
 # Valgrind Analisys
 Command:

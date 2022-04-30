@@ -73,29 +73,41 @@ int getTimestamp(char * buffer, Time * stamp){
 
 char * changeTimestamp(char * buffer, Time stamp,int shift){
 
-	if(shift>0){
-		int seconds = stamp.seconds_1 + shift;
-		int mins = stamp.minutes_1 + seconds/60;
-		stamp.hours_1 = stamp.hours_1 + mins/60;
-		
-		if(seconds >= 60){
-			stamp.seconds_1 = (seconds%60);
-		}else stamp.seconds_1 = seconds;
-		if(mins >= 60){
-			stamp.minutes_1 = (mins%60);
-		}else stamp.minutes_1 = mins;
+	stamp.seconds_1 += shift%60;
+    stamp.minutes_1 += shift/60;
+    stamp.hours_1 += shift/3600;
+	stamp.hours_1 += stamp.seconds_1/60;
+    stamp.seconds_1 = stamp.seconds_1%60;
+    stamp.minutes_1 = stamp.minutes_1%60;
+    if(stamp.seconds_1 < 0){
+        stamp.seconds_1 += 60;
+        stamp.minutes_1 -= 1;
+    }
+    if(stamp.minutes_1 < 0){
+        stamp.minutes_1 += 60;
+        stamp.hours_1 -= 1;
+    }
+    if(stamp.hours_1 < 0){
+        stamp.hours_1 += 24;  //this is messed up, but it is unlikely to have a +2 hour shifted subtitle
+    }
 
-		seconds = stamp.seconds_2 + shift;
-		mins = stamp.minutes_2 + seconds/60;
-		stamp.hours_2 = stamp.hours_2 + mins/60;
-		
-		if(seconds >= 60){
-			stamp.seconds_2 = (seconds%60);
-		}else stamp.seconds_2 = seconds;
-		if(mins >= 60){
-			stamp.minutes_2 = (mins%60);
-		}else stamp.minutes_2 = mins;
-	}	
+	stamp.seconds_2 += shift%60;
+    stamp.minutes_2 += shift/60;
+    stamp.hours_2 += shift/3600;
+	stamp.hours_2 += stamp.seconds_2/60;
+    stamp.seconds_2 = stamp.seconds_2%60;
+    stamp.minutes_2 = stamp.minutes_2%60;
+    if(stamp.seconds_2 < 0){
+        stamp.seconds_2 += 60;
+        stamp.minutes_2 -= 1;
+    }
+    if(stamp.minutes_2 < 0){
+        stamp.minutes_2 += 60;
+        stamp.hours_2 -= 1;
+    }
+    if(stamp.hours_2 < 0){
+        stamp.hours_2 += 24;  //this is messed up, but it is unlikely to have a +2 hour shifted subtitle
+    }
 				
 	sprintf(buffer,"%.2d:%.2d:%.2d,%.3d --> %.2d:%.2d:%.2d,%.3d\n",
 	stamp.hours_1,stamp.minutes_1,stamp.seconds_1,stamp.milisseconds_1,

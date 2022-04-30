@@ -22,11 +22,21 @@ void changeTimestamp(char * buffer, Time stamp,int shift, int opt);
 int getTimestamp(char * buffer, Time * stamp);
 
 int main(int argc,char * argv[]){
+
+	char * usage = "\nInsert path to SRT file in the command line : ./clegend <Path to file>\n\nExample:\n\n[user@DESKTOP C-SRT-FileParser]$ ./clegend src/file.srt\n";
+
 	if(argv[1] == NULL){
-		printf("\nFile not especified");
+		printf("\nFile not especified.\n");
+		printf("%s",usage);		
 	}else{
+		FILE * fp;
+		if((fp = fopen(argv[1],"r")) == NULL){
+			printf("\nFile can't be openned or is invalid\n %s",usage);
+		}else{
+		fclose(fp);
 		printf("\nOpenning File : %s\n",argv[1]);
 		Menu(argv[1]);
+		}
 	}
 	printf("\nGoodbye \U0001f984 \n");
 	return 0;
@@ -142,7 +152,7 @@ void changeTimestamp(char * buffer, Time stamp,int shift, int opt){
 void readFile(char * file){
 	FILE * fp;
 	if((fp = fopen(file,"r")) == NULL){
-		printf("\nFile can't be openned\n");
+		printf("\nFile can't be openned or is invalid\n");
 	}else{
 		printf("\nFile openned\n");
 		int ch = getc(fp);	

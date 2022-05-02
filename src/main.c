@@ -1,8 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <wchar.h> 
 #include <string.h>
-#include <ctype.h>
+
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
 
 typedef struct time{
 	int hours_1;
@@ -23,22 +29,23 @@ int getTimestamp(char * buffer, Time * stamp);
 
 int main(int argc,char * argv[]){
 
-	char * usage = "\nInsert path to SRT file in the command line : ./clegend <Path to file>\n\nExample:\n\n[user@DESKTOP C-SRT-FileParser]$ ./clegend src/file.srt\n";
+	char * usage = "\nInsert path to SRT file in the command line :\x1b[36m ./clegend <Path to file>\x1b[0m\n\nExample:\n\n[user@DESKTOP C-SRT-FileParser]$ \x1b[36m./clegend src/file.srt\x1b[0m\n";
 
 	if(argv[1] == NULL){
-		printf("\nFile not especified.\n");
+		printf(ANSI_COLOR_RED "\nFile not especified.\n" ANSI_COLOR_RESET);
 		printf("%s",usage);		
 	}else{
 		FILE * fp;
 		if((fp = fopen(argv[1],"r")) == NULL){
-			printf("\nFile can't be openned or is invalid\n %s",usage);
+			printf(ANSI_COLOR_RED "\nFile can't be openned or is invalid\n" ANSI_COLOR_RESET);
+			printf("%s",usage);
 		}else{
 		fclose(fp);
 		printf("\nOpenning File : %s\n",argv[1]);
 		Menu(argv[1]);
 		}
 	}
-	printf("\nGoodbye \U0001f984 \n");
+	printf("\n\x1b[35mGoodbye\x1b[0m \U0001f984 \n");
 	return 0;
 }
 
@@ -68,7 +75,7 @@ void findSequence(char * file, int shift, int opt){
 				fprintf(OUT_file,buffer);
 			}		
 		}fclose(OUT_file);
-		printf("\n\tOutfile.srt created.\n");
+		printf(ANSI_COLOR_GREEN "\n\tOutfile.srt created.\n" ANSI_COLOR_RESET);
 	}
 	fclose(IN_file);
 	

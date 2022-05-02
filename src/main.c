@@ -94,16 +94,18 @@ void changeTimestamp(char * buffer, Time stamp,int shift, int opt){
 		int shift_ms = shift;
 		shift = shift/1000;
 		stamp.milisseconds_1 += shift_ms;
-        stamp.seconds_1 += shift/1000 + stamp.milisseconds_1/60000;
+        //stamp.seconds_1 += shift/1000 + stamp.milisseconds_1/60000;
+		stamp.seconds_1 += stamp.milisseconds_1/1000;
         stamp.milisseconds_1 = stamp.milisseconds_1%1000;
 
 		stamp.milisseconds_2 += shift_ms;
-        stamp.seconds_2 += shift/1000 + stamp.milisseconds_2/60000;
+        //stamp.seconds_2 += shift/1000 + stamp.milisseconds_2/60000;
+		stamp.seconds_2 += stamp.milisseconds_2/1000;
         stamp.milisseconds_2 = stamp.milisseconds_2%1000;
 		//shift = shift/1000;
-    }
+    }else{stamp.seconds_1 += shift%60;}
 
-	stamp.seconds_1 += shift%60;
+	//stamp.seconds_1 += shift%60;
     stamp.minutes_1 += shift/60 + stamp.seconds_1/60;
     //stamp.hours_1 += shift/3600;
 	//stamp.hours_1 += stamp.seconds_1/60;
